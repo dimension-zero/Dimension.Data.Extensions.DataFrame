@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensions", "Dimension.DataFrame.Extensions.csproj", "{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Debug|x64.ActiveCfg = Debug|x64
+		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Debug|x64.Build.0 = Debug|x64
+		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Release|x64.ActiveCfg = Release|x64
+		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7E6566CA-5986-4040-A12A-D0562C08B351}
+	EndGlobalSection
+EndGlobal

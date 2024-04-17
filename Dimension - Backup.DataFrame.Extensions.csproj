@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>Dimension.DataFrame.Extensions</AssemblyName>
+    <RootNamespace>Dimension.DataFrame.Extensions</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="DataFrameExtensionsArithmetic.cs" />
+    <Compile Include="DataFrameExtensionsCalculations.cs" />
+    <Compile Include="DataFrameExtensionsColumns.cs" />
+    <Compile Include="DataFrameExtensionsCumulations.cs" />
+    <Compile Include="DataFrameExtensionsFilters.cs" />
+    <Compile Include="DataFrameExtensionsIO.cs" />
+    <Compile Include="DataFrameExtensionsNullsNaNs.cs" />
+    <Compile Include="DataFrameExtensionsRolling.cs" />
+    <Compile Include="DataFrameExtensionsRows.cs" />
+    <Compile Include="DataFrameExtensionsShifts.cs" />
+    <Compile Include="DataFrameExtensionsSugar.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+
+</Project>
