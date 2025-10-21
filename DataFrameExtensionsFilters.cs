@@ -50,18 +50,72 @@ public static class DataFrameExtensionsFilters
         foreach (var column in df.Columns)
         {
             DataFrameColumn newColumn;
-            if (column.DataType == typeof(double))
+
+            // Support common numeric types
+            if (column.DataType == typeof(int))
+            {
+                newColumn = new PrimitiveDataFrameColumn<int>(column.Name);
+            }
+            else if (column.DataType == typeof(long))
+            {
+                newColumn = new PrimitiveDataFrameColumn<long>(column.Name);
+            }
+            else if (column.DataType == typeof(float))
+            {
+                newColumn = new PrimitiveDataFrameColumn<float>(column.Name);
+            }
+            else if (column.DataType == typeof(double))
             {
                 newColumn = new PrimitiveDataFrameColumn<double>(column.Name);
+            }
+            else if (column.DataType == typeof(decimal))
+            {
+                newColumn = new PrimitiveDataFrameColumn<decimal>(column.Name);
+            }
+            // Support other common types
+            else if (column.DataType == typeof(bool))
+            {
+                newColumn = new PrimitiveDataFrameColumn<bool>(column.Name);
+            }
+            else if (column.DataType == typeof(byte))
+            {
+                newColumn = new PrimitiveDataFrameColumn<byte>(column.Name);
+            }
+            else if (column.DataType == typeof(sbyte))
+            {
+                newColumn = new PrimitiveDataFrameColumn<sbyte>(column.Name);
+            }
+            else if (column.DataType == typeof(short))
+            {
+                newColumn = new PrimitiveDataFrameColumn<short>(column.Name);
+            }
+            else if (column.DataType == typeof(ushort))
+            {
+                newColumn = new PrimitiveDataFrameColumn<ushort>(column.Name);
+            }
+            else if (column.DataType == typeof(uint))
+            {
+                newColumn = new PrimitiveDataFrameColumn<uint>(column.Name);
+            }
+            else if (column.DataType == typeof(ulong))
+            {
+                newColumn = new PrimitiveDataFrameColumn<ulong>(column.Name);
+            }
+            else if (column.DataType == typeof(char))
+            {
+                newColumn = new PrimitiveDataFrameColumn<char>(column.Name);
+            }
+            else if (column.DataType == typeof(DateTime))
+            {
+                newColumn = new PrimitiveDataFrameColumn<DateTime>(column.Name);
             }
             else if (column.DataType == typeof(string))
             {
                 newColumn = new StringDataFrameColumn(column.Name);
             }
-            // Add more types as needed
             else
             {
-                throw new NotSupportedException($"Column type {column.DataType} is not supported");
+                throw new NotSupportedException($"Column type {column.DataType.Name} is not supported. Supported types: int, long, float, double, decimal, bool, byte, sbyte, short, ushort, uint, ulong, char, DateTime, string");
             }
 
             newColumns.Add(newColumn);

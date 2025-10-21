@@ -6,10 +6,30 @@
     <RootNamespace>Dimension.DataFrame.Extensions</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Platforms>x64</Platforms>
+    <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+
+    <!-- NuGet Package Information -->
+    <PackageId>Dimension.DataFrame.Extensions</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Dimension Technologies</Authors>
+    <Company>Dimension Technologies</Company>
+    <Product>Dimension DataFrame Extensions</Product>
+    <Description>A comprehensive set of extension methods for Microsoft.Data.Analysis.DataFrame that provides pandas-like functionality for .NET data science. Includes arithmetic operations, filtering, rolling windows, cumulative calculations, shift operations, and more.</Description>
+    <PackageTags>dataframe;data-analysis;data-science;pandas;extensions;csharp;dotnet;statistics;numerical-computing</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/dimension-zero/Dimension.Data.Extensions.DataFrame</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dimension-zero/Dimension.Data.Extensions.DataFrame</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Initial release with comprehensive DataFrame extension methods including arithmetic, filtering, cumulative operations, rolling windows, and more.</PackageReleaseNotes>
+    <Copyright>Copyright © 2024 Dimension Technologies</Copyright>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="README.md" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>

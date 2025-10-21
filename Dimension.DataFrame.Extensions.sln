@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensions", "Dimension.DataFrame.Extensions.csproj", "{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensions.Tests", "Dimension.DataFrame.Extensions.Tests\Dimension.DataFrame.Extensions.Tests.csproj", "{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Debug|x64.Build.0 = Debug|x64
 		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Release|x64.ActiveCfg = Release|x64
 		{0B47922B-6B8F-4C7F-BA92-1B3643ACA381}.Release|x64.Build.0 = Release|x64
+		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Debug|x64.ActiveCfg = Debug|x64
+		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Debug|x64.Build.0 = Debug|x64
+		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Release|x64.ActiveCfg = Release|x64
+		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
