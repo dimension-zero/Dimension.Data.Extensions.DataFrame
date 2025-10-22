@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <AssemblyName>Dimension.DataFrame.Extensions</AssemblyName>
     <RootNamespace>Dimension.DataFrame.Extensions</RootNamespace>
     <LangVersion>latest</LangVersion>
@@ -11,18 +11,18 @@
 
     <!-- NuGet Package Information -->
     <PackageId>Dimension.DataFrame.Extensions</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Dimension Technologies</Authors>
     <Company>Dimension Technologies</Company>
     <Product>Dimension DataFrame Extensions</Product>
-    <Description>A comprehensive set of extension methods for Microsoft.Data.Analysis.DataFrame that provides pandas-like functionality for .NET data science. Includes arithmetic operations, filtering, rolling windows, cumulative calculations, shift operations, and more.</Description>
-    <PackageTags>dataframe;data-analysis;data-science;pandas;extensions;csharp;dotnet;statistics;numerical-computing</PackageTags>
+    <Description>A comprehensive set of extension methods for Microsoft.Data.Analysis.DataFrame that provides pandas-like functionality for .NET data science. Includes arithmetic operations, filtering, rolling windows, cumulative calculations, shift operations, statistical methods, and mathematical functions.</Description>
+    <PackageTags>dataframe;data-analysis;data-science;pandas;extensions;csharp;dotnet;statistics;numerical-computing;math</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/dimension-zero/Dimension.Data.Extensions.DataFrame</PackageProjectUrl>
     <RepositoryUrl>https://github.com/dimension-zero/Dimension.Data.Extensions.DataFrame</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>Initial release with comprehensive DataFrame extension methods including arithmetic, filtering, cumulative operations, rolling windows, and more.</PackageReleaseNotes>
+    <PackageReleaseNotes>Version 1.1.0: Added statistical methods (Mean, Median, StdDev, Variance, Quantile, Describe), mathematical functions (Abs, Log, Exp, Sqrt, Sin, Cos, Round), and multi-targeting support for .NET 6.0, 7.0, and 8.0.</PackageReleaseNotes>
     <Copyright>Copyright © 2024 Dimension Technologies</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

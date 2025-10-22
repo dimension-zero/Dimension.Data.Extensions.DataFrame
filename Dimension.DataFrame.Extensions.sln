@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensions.Tests", "Dimension.DataFrame.Extensions.Tests\Dimension.DataFrame.Extensions.Tests.csproj", "{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dimension.DataFrame.Extensions.Benchmarks", "Dimension.DataFrame.Extensions.Benchmarks\Dimension.DataFrame.Extensions.Benchmarks.csproj", "{2D4A6B7C-8E9F-4D5A-A1B2-3C4D5E6F7A8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Debug|x64.Build.0 = Debug|x64
 		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Release|x64.ActiveCfg = Release|x64
 		{8C7D9A2E-3F1B-4A5C-9B7E-6D8F5E4C3B2A}.Release|x64.Build.0 = Release|x64
+		{2D4A6B7C-8E9F-4D5A-A1B2-3C4D5E6F7A8B}.Debug|x64.ActiveCfg = Debug|x64
+		{2D4A6B7C-8E9F-4D5A-A1B2-3C4D5E6F7A8B}.Debug|x64.Build.0 = Debug|x64
+		{2D4A6B7C-8E9F-4D5A-A1B2-3C4D5E6F7A8B}.Release|x64.ActiveCfg = Release|x64
+		{2D4A6B7C-8E9F-4D5A-A1B2-3C4D5E6F7A8B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

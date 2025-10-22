@@ -12,12 +12,15 @@ A comprehensive set of extension methods for `Microsoft.Data.Analysis.DataFrame`
 - **Calculations** - Diff, Apply, Pow operations
 - **Cumulative Operations** - Running sums and absolute sums
 - **Rolling Windows** - Moving averages and custom rolling calculations
+- **Statistical Methods** - Mean, Median, StdDev, Variance, Min, Max, Sum, Count, Quantile, Describe
+- **Mathematical Functions** - Abs, Log, Log10, Exp, Sqrt, Sin, Cos, Round
 - **Filtering** - Predicate-based and index-based filtering
 - **Column Management** - Selection, existence checking, type-safe retrieval
 - **Null/NaN Handling** - Drop rows with missing data
 - **Shift Operations** - Lag/lead column values
-- **I/O Operations** - Pretty printing and CSV export
+- **I/O Operations** - Pretty printing and RFC 4180 compliant CSV export
 - **Syntactic Sugar** - Method chaining with fluent API
+- **Multi-targeting** - Supports .NET 6.0, 7.0, and 8.0
 
 ## Installation
 
@@ -33,7 +36,7 @@ dotnet add package Dimension.DataFrame.Extensions
 
 ### PackageReference
 ```xml
-<PackageReference Include="Dimension.DataFrame.Extensions" Version="1.0.0" />
+<PackageReference Include="Dimension.DataFrame.Extensions" Version="1.1.0" />
 ```
 
 ## Quick Start
@@ -227,9 +230,82 @@ df.Print(numRows: 10, numberFormat: "F2");
 df.SaveToCsv("output.csv", sep: ",", includeHeader: true);
 ```
 
+### Statistical Methods
+
+```csharp
+var data = new PrimitiveDataFrameColumn<double>("Data", new[] { 1.5, 2.3, 3.7, 4.2, 5.8, 6.1, 7.9, 8.4, 9.2, 10.5 });
+
+// Calculate mean
+var mean = data.Mean();  // 5.96
+
+// Calculate median
+var median = data.Median();  // 5.95
+
+// Calculate standard deviation
+var stdDev = data.StdDev();  // Sample std dev
+
+// Calculate variance
+var variance = data.Variance();  // Sample variance
+
+// Get min and max
+var min = data.Min();  // 1.5
+var max = data.Max();  // 10.5
+
+// Calculate sum
+var sum = data.Sum();  // 59.6
+
+// Get count of non-null values
+var count = data.Count();  // 10
+
+// Calculate specific quantile (e.g., 75th percentile)
+var q75 = data.Quantile(0.75);
+
+// Get comprehensive statistics
+var stats = data.Describe();
+// Returns: (Count, Mean, StdDev, Min, Q25, Median, Q75, Max)
+Console.WriteLine($"Count: {stats.Count}, Mean: {stats.Mean}, Median: {stats.Median}");
+```
+
+### Mathematical Functions
+
+```csharp
+var data = new PrimitiveDataFrameColumn<double>("Data", new[] { -2.5, -1.0, 0.0, 1.0, 2.5 });
+
+// Absolute value
+var absValues = data.Abs();  // [2.5, 1.0, 0.0, 1.0, 2.5]
+
+// Natural logarithm
+var positiveData = new PrimitiveDataFrameColumn<double>("Positive", new[] { 1.0, 2.718, 7.389 });
+var logValues = positiveData.Log();  // [0.0, 1.0, 2.0]
+
+// Base-10 logarithm
+var log10Values = positiveData.Log10();
+
+// Logarithm with custom base
+var log2Values = positiveData.Log(2);  // Log base 2
+
+// Exponential (e^x)
+var expData = new PrimitiveDataFrameColumn<double>("Exp", new[] { 0.0, 1.0, 2.0 });
+var expValues = expData.Exp();  // [1.0, 2.718, 7.389]
+
+// Square root
+var sqrtData = new PrimitiveDataFrameColumn<double>("SqrtData", new[] { 0.0, 1.0, 4.0, 9.0, 16.0 });
+var sqrtValues = sqrtData.Sqrt();  // [0.0, 1.0, 2.0, 3.0, 4.0]
+
+// Trigonometric functions
+var angles = new PrimitiveDataFrameColumn<double>("Angles", new[] { 0.0, Math.PI/2, Math.PI });
+var sineValues = angles.Sin();
+var cosineValues = angles.Cos();
+
+// Rounding
+var decimals = new PrimitiveDataFrameColumn<double>("Decimals", new[] { 1.234, 5.678, 9.999 });
+var rounded = decimals.Round(2);  // [1.23, 5.68, 10.0]
+var roundedInt = decimals.Round();  // [1.0, 6.0, 10.0]
+```
+
 ## Requirements
 
-- .NET 8.0 or later
+- .NET 6.0, 7.0, or 8.0
 - Microsoft.Data.Analysis 0.21.1 or later
 - MathNet.Numerics 5.0.0 or later
 
@@ -248,6 +324,34 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ```bash
 dotnet test
 ```
+
+## Performance Benchmarks
+
+Run performance benchmarks to compare operations:
+
+```bash
+cd Dimension.DataFrame.Extensions.Benchmarks
+dotnet run -c Release
+```
+
+Run specific benchmarks:
+
+```bash
+# Run only arithmetic benchmarks
+dotnet run -c Release -- --filter *ArithmeticBenchmarks*
+
+# Run only statistics benchmarks
+dotnet run -c Release -- --filter *StatisticsBenchmarks*
+
+# Export results to HTML and JSON
+dotnet run -c Release -- --exporters json,html
+```
+
+Benchmark categories:
+- **ArithmeticBenchmarks** - Plus, Minus, Times, Divide performance
+- **StatisticsBenchmarks** - Mean, Median, StdDev, Variance, Describe performance
+- **MathBenchmarks** - Abs, Log, Exp, Sqrt, trigonometric functions
+- **RollingWindowBenchmarks** - Rolling window operations with various sizes
 
 ## Building from Source
 
