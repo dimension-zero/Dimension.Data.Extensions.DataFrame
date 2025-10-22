@@ -47,6 +47,11 @@ public static class DataFrameExtensionsCalculations
     public static PrimitiveDataFrameColumn<T> Apply<T>(this PrimitiveDataFrameColumn<T> column, Func<T, T> operation, string name = "")
         where T : unmanaged, INumber<T>
     {
+        if (operation == null)
+        {
+            throw new ArgumentNullException(nameof(operation));
+        }
+
         if (string.IsNullOrEmpty(name))
         {
             name = column.Name + "_Applied";

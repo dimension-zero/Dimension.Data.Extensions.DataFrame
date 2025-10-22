@@ -125,6 +125,12 @@ public static class DataFrameExtensionsFilters
 
         foreach (var rowIndex in rowsToKeep)
         {
+            if (rowIndex < 0 || rowIndex >= df.Rows.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowsToKeep),
+                    $"Row index {rowIndex} is out of bounds. DataFrame has {df.Rows.Count} rows (valid indices: 0 to {df.Rows.Count - 1}).");
+            }
+
             var row = df.Rows[rowIndex];
             newDf.AddRow(row);
         }

@@ -94,6 +94,11 @@ public static class DataFrameExtensionsMath
     public static PrimitiveDataFrameColumn<double> Log<T>(this PrimitiveDataFrameColumn<T> column, double logBase, string name = "")
         where T : unmanaged, INumber<T>
     {
+        if (logBase <= 0 || logBase == 1)
+        {
+            throw new ArgumentException("Logarithm base must be positive and not equal to 1.", nameof(logBase));
+        }
+
         if (string.IsNullOrEmpty(name))
         {
             name = $"{column.Name}_Log{logBase}";
@@ -107,7 +112,7 @@ public static class DataFrameExtensionsMath
             if (value.HasValue)
             {
                 var doubleValue = Convert.ToDouble(value.Value);
-                if (doubleValue > 0 && logBase > 0 && logBase != 1)
+                if (doubleValue > 0)
                 {
                     result[i] = Math.Log(doubleValue, logBase);
                 }
