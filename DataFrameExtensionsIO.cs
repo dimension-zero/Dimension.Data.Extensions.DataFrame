@@ -130,47 +130,99 @@ public static class DataFrameExtensionsIO
                };
     }
 
+    /// <summary>
+    /// Saves DataFrame to CSV file with RFC 4180 compliance
+    /// </summary>
+    /// <param name="dataFrame">The DataFrame to save</param>
+    /// <param name="fullPath">Full path to output CSV file</param>
+    /// <param name="sep">Column separator (default comma)</param>
+    /// <param name="includeHeader">Include column names as header row</param>
     public static void SaveToCsv(this Microsoft.Data.Analysis.DataFrame dataFrame, string fullPath, string sep = ",", bool includeHeader = true)
     {
-        var csvContent = new StringBuilder();
-
-        var numColumns = dataFrame.Columns.Count;
-        if (includeHeader)
+        try
         {
-            for (var i = 0; i < numColumns; i++)
+            var csvContent = new StringBuilder();
+            var numColumns = dataFrame.Columns.Count;
+
+            // Write header if requested
+            if (includeHeader)
             {
-                csvContent.Append(dataFrame.Columns[i].Name);
-                if (i < numColumns - 1)
+                for (var i = 0; i < numColumns; i++)
                 {
-                    csvContent.Append(sep);
+                    csvContent.Append(EscapeCsvValue(dataFrame.Columns[i].Name, sep));
+                    if (i < numColumns - 1)
+                    {
+                        csvContent.Append(sep);
+                    }
                 }
+                csvContent.AppendLine();
             }
 
-            csvContent.AppendLine();
-        }
-
-        for (long i = 0; i < dataFrame.Rows.Count; i++)
-        {
-            var row = dataFrame.Rows[i];
-            for (var j = 0; j < numColumns; j++)
+            // Write data rows
+            for (long i = 0; i < dataFrame.Rows.Count; i++)
             {
-                var value = row[j]?.ToString() ?? "";
-                // Handle potential separator in value (simple escape mechanism, consider enhancing for full CSV compliance)
-                if (value.Contains(sep))
+                var row = dataFrame.Rows[i];
+                for (var j = 0; j < numColumns; j++)
                 {
-                    value = $"\"{value}\"";
-                }
+                    var value = row[j]?.ToString() ?? "";
+                    csvContent.Append(EscapeCsvValue(value, sep));
 
-                csvContent.Append(value);
-                if (j < numColumns - 1)
-                {
-                    csvContent.Append(sep);
+                    if (j < numColumns - 1)
+                    {
+                        csvContent.Append(sep);
+                    }
                 }
+                csvContent.AppendLine();
             }
 
-            csvContent.AppendLine();
+            File.WriteAllText(fullPath, csvContent.ToString());
+        }
+        catch (Exception ex)
+        {
+            throw new IOException($"Failed to save CSV to '{fullPath}': {ex.Message}", ex);
+        }
+    }
+
+    /// <summary>
+    /// Escapes a CSV value according to RFC 4180 and prevents CSV injection
+    /// </summary>
+    /// <param name="value">The value to escape</param>
+    /// <param name="separator">The column separator</param>
+    /// <returns>Escaped CSV value</returns>
+    private static string EscapeCsvValue(string value, string separator)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return string.Empty;
         }
 
-        File.WriteAllText(fullPath, csvContent.ToString());
+        // CSV Injection prevention - sanitize values starting with formula characters
+        // These can be exploited in Excel/LibreOffice to execute formulas
+        if (value.Length > 0)
+        {
+            var firstChar = value[0];
+            if (firstChar == '=' || firstChar == '+' || firstChar == '-' || firstChar == '@' || firstChar == '\t' || firstChar == '\r')
+            {
+                // Prefix with single quote to prevent formula interpretation
+                value = "'" + value;
+            }
+        }
+
+        // RFC 4180: Fields containing separators, double quotes, or newlines must be quoted
+        var needsQuoting = value.Contains(separator) ||
+                          value.Contains('"') ||
+                          value.Contains('\n') ||
+                          value.Contains('\r');
+
+        if (!needsQuoting)
+        {
+            return value;
+        }
+
+        // RFC 4180: Escape double quotes by doubling them
+        var escaped = value.Replace("\"", "\"\"");
+
+        // RFC 4180: Wrap the field in double quotes
+        return $"\"{escaped}\"";
     }
 }
