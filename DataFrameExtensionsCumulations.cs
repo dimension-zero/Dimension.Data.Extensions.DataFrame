@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using Microsoft.Data.Analysis;
 
 namespace Dimension.DataFrame.Extensions;
@@ -11,6 +12,11 @@ public static class DataFrameExtensionsCumulations
     public static PrimitiveDataFrameColumn<T> Cumulate<T>(this PrimitiveDataFrameColumn<T>? column, string newName = "", bool useNaN = false)
         where T : unmanaged, INumber<T>
     {
+        if (column is null)
+        {
+            throw new ArgumentNullException(nameof(column), "Column cannot be null.");
+        }
+
         var newColumnName = string.IsNullOrEmpty(newName) ? column.Name + "_Cumulative" : newName;
         var newColumn = new PrimitiveDataFrameColumn<T>(newColumnName, new T[column.Length]);
         T? sum = T.Zero;
@@ -36,7 +42,7 @@ public static class DataFrameExtensionsCumulations
     {
         if (string.IsNullOrEmpty(newName))
         {
-            newName = string.IsNullOrEmpty(newName) ? column.Name + "_Abs" : newName;
+            newName = column.Name + "_CumulativeAbs";
         }
 
         var newColumn = new PrimitiveDataFrameColumn<T>(newName, new T[column.Length]);

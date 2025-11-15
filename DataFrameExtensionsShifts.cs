@@ -13,7 +13,7 @@ public static class DataFrameExtensionsShifts
     /// Shifts a column by a specified number of rows
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="column"Source columns to shift></param>
+    /// <param name="column">Source column to shift</param>
     /// <param name="rows">Number of rows to shift the column</param>
     /// <param name="fillValue">Value to use in cells vacated by shift</param>
     /// <param name="name">Optional name of shifted column</param>

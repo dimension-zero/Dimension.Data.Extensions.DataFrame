@@ -18,11 +18,27 @@ public static class DataFrameExtensionsCalculations
             return null;
         }
 
+        // Cast to typed column
+        if (column is not PrimitiveDataFrameColumn<T> typedColumn)
+        {
+            throw new ArgumentException($"Column must be of type PrimitiveDataFrameColumn<{typeof(T).Name}>", nameof(column));
+        }
+
         var newName = string.IsNullOrEmpty(name) ? column.Name + "_Diff" : name;
         var newColumn = new PrimitiveDataFrameColumn<T>(newName, Enumerable.Repeat(seed, (int) column.Length));
         for (var i = 1; i < column.Length; i++)
         {
-            newColumn[i] = (dynamic) column[i] - (dynamic) column[i - 1];
+            var currentValue = typedColumn[i];
+            var previousValue = typedColumn[i - 1];
+
+            if (currentValue.HasValue && previousValue.HasValue)
+            {
+                newColumn[i] = currentValue.Value - previousValue.Value;
+            }
+            else
+            {
+                newColumn[i] = null;
+            }
         }
 
         return newColumn;
@@ -31,9 +47,14 @@ public static class DataFrameExtensionsCalculations
     public static PrimitiveDataFrameColumn<T> Apply<T>(this PrimitiveDataFrameColumn<T> column, Func<T, T> operation, string name = "")
         where T : unmanaged, INumber<T>
     {
+        if (operation == null)
+        {
+            throw new ArgumentNullException(nameof(operation));
+        }
+
         if (string.IsNullOrEmpty(name))
         {
-            name = string.IsNullOrEmpty(name) ? column.Name + "_Applied" : name;
+            name = column.Name + "_Applied";
         }
 
         var newColumn = new PrimitiveDataFrameColumn<T>(name, column.Length);
