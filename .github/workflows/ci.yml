@@ -24,13 +24,13 @@ jobs:
         dotnet-version: ${{ matrix.dotnet-version }}
 
     - name: Restore dependencies
-      run: dotnet restore Dimension.DataFrame.Extensions.sln
+      run: dotnet restore Dimension.DataFrame.Extensions.sln -p:Platform=x64
 
     - name: Build
-      run: dotnet build Dimension.DataFrame.Extensions.sln --configuration Release --no-restore
+      run: dotnet build Dimension.DataFrame.Extensions.sln --configuration Release --no-restore -p:Platform=x64
 
     - name: Test
-      run: dotnet test Dimension.DataFrame.Extensions.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test Dimension.DataFrame.Extensions.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage -p:Platform=x64
 
     - name: Code Coverage Report
       uses: codecov/codecov-action@v3
@@ -51,10 +51,10 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Dimension.DataFrame.Extensions.sln -p:Platform=x64
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build Dimension.DataFrame.Extensions.sln --configuration Release --no-restore -p:Platform=x64
 
     - name: Run dotnet format check
       run: dotnet format --verify-no-changes --verbosity diagnostic || true
