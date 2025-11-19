@@ -55,7 +55,7 @@ public class DataFrameExtensionsStatisticsTests
         var result = column.Median();
 
         // Assert
-        result.Should().Be(2); // Average of 2 and 3 = 2.5, but integer division gives 2
+        result.Should().Be(2.5); // Average of 2 and 3 = 2.5 (now returns double for precision)
     }
 
     [Fact]
