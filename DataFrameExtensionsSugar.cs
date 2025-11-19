@@ -128,7 +128,6 @@ public static class DataFrameExtensionsSugar
         {
             // avoid DBZ error
             return a.Value == b.Value;
-            return true;
         }
 
         // Calculate the relative difference based on the maximum absolute value

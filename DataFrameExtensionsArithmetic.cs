@@ -13,7 +13,7 @@ public static class DataFrameExtensionsArithmetic
     public static PrimitiveDataFrameColumn<T> Plus<T>(this PrimitiveDataFrameColumn<T> column, PrimitiveDataFrameColumn<T> otherColumn, string name = "")
         where T : unmanaged, INumber<T>
     {
-        return column.Plus<T>(name, otherColumn);
+        return column.Plus(name, otherColumn);
     }
 
     public static PrimitiveDataFrameColumn<T> Plus<T>(this PrimitiveDataFrameColumn<T> column, string name = "", params PrimitiveDataFrameColumn<T>[] otherColumns)
@@ -99,14 +99,14 @@ public static class DataFrameExtensionsArithmetic
 
         if (string.IsNullOrEmpty(name))
         {
-            var namesToConcat = new[] {column.Name}.Concat(otherColumns.Select(c => c.Name));
-            name = $"{column.Name}_Times_{string.Join("_", namesToConcat)}";
+            var otherNames = otherColumns.Select(c => c.Name);
+            name = $"{column.Name}_Times_{string.Join("_", otherNames)}";
         }
 
         return new PrimitiveDataFrameColumn<T>(name, result);
     }
 
-    public static PrimitiveDataFrameColumn<T> Divide<T>(this PrimitiveDataFrameColumn<T> numeratorColumn, PrimitiveDataFrameColumn<T> divisorColumn, string name)
+    public static PrimitiveDataFrameColumn<T> Divide<T>(this PrimitiveDataFrameColumn<T> numeratorColumn, PrimitiveDataFrameColumn<T> divisorColumn, string name = "")
         where T : unmanaged, INumber<T>
     {
         if (numeratorColumn.Length != divisorColumn.Length)
