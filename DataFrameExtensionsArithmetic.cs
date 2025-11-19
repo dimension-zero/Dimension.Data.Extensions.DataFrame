@@ -63,7 +63,7 @@ public static class DataFrameExtensionsArithmetic
 
         if (string.IsNullOrEmpty(name))
         {
-            name = $"{column.Name}_Minus_{columnToSubtract.Name}";
+            name = $"{column.Name}-{columnToSubtract.Name}";
         }
 
         return new PrimitiveDataFrameColumn<T>(name, result);
@@ -99,8 +99,8 @@ public static class DataFrameExtensionsArithmetic
 
         if (string.IsNullOrEmpty(name))
         {
-            var otherNames = otherColumns.Select(c => c.Name);
-            name = $"{column.Name}_Times_{string.Join("_", otherNames)}";
+            var namesToConcat = new[] {column.Name}.Concat(otherColumns.Select(c => c.Name));
+            name = string.Join("*", namesToConcat);
         }
 
         return new PrimitiveDataFrameColumn<T>(name, result);

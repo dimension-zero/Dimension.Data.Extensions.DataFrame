@@ -13,17 +13,17 @@ public static class DataFrameExtensionsNullsNaNs
     public static PrimitiveDataFrameColumn<T> DropNulls<T>(this PrimitiveDataFrameColumn<T> column)
         where T : unmanaged, INumber<T>
     {
-        var newColumn = new PrimitiveDataFrameColumn<T>(column.Name, column.Length);
+        var validValues = new List<T?>();
         foreach (var value in column)
         {
             var shouldAddValue = value != null && !(value is float f && float.IsNaN(f)) && !(value is double d && double.IsNaN(d));
             if (shouldAddValue)
             {
-                newColumn.Append(value);
+                validValues.Add(value);
             }
         }
 
-        return newColumn;
+        return new PrimitiveDataFrameColumn<T>(column.Name, validValues);
     }
 
     public static Microsoft.Data.Analysis.DataFrame DropNulls(this Microsoft.Data.Analysis.DataFrame df)

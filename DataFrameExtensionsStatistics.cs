@@ -50,8 +50,8 @@ public static class DataFrameExtensionsStatistics
     /// </summary>
     /// <typeparam name="T">Numeric type</typeparam>
     /// <param name="column">Column to calculate median for</param>
-    /// <returns>Median value, or null if column is empty or all values are null</returns>
-    public static T? Median<T>(this PrimitiveDataFrameColumn<T> column)
+    /// <returns>Median value as double, or null if column is empty or all values are null</returns>
+    public static double? Median<T>(this PrimitiveDataFrameColumn<T> column)
         where T : unmanaged, INumber<T>
     {
         if (column == null || column.Length == 0)
@@ -59,7 +59,7 @@ public static class DataFrameExtensionsStatistics
             return null;
         }
 
-        var values = column.Where(v => v.HasValue).Select(v => v!.Value).OrderBy(v => v).ToList();
+        var values = column.Where(v => v.HasValue).Select(v => Convert.ToDouble(v!.Value)).OrderBy(v => v).ToList();
 
         if (values.Count == 0)
         {
@@ -71,7 +71,7 @@ public static class DataFrameExtensionsStatistics
         if (values.Count % 2 == 0)
         {
             // Even number of elements - average the two middle values
-            return (values[middleIndex - 1] + values[middleIndex]) / T.CreateChecked(2);
+            return (values[middleIndex - 1] + values[middleIndex]) / 2.0;
         }
         else
         {
@@ -95,7 +95,7 @@ public static class DataFrameExtensionsStatistics
     }
 
     /// <summary>
-    /// Calculates the variance of a column
+    /// Calculates the variance of a column using Welford's online algorithm for numerical stability
     /// </summary>
     /// <typeparam name="T">Numeric type</typeparam>
     /// <param name="column">Column to calculate variance for</param>
@@ -109,18 +109,32 @@ public static class DataFrameExtensionsStatistics
             return null;
         }
 
-        var values = column.Where(v => v.HasValue).Select(v => Convert.ToDouble(v!.Value)).ToList();
+        // Single-pass variance calculation using Welford's algorithm
+        var count = 0;
+        var mean = 0.0;
+        var m2 = 0.0;
 
-        if (values.Count < (sample ? 2 : 1))
+        for (var i = 0; i < column.Length; i++)
+        {
+            var value = column[i];
+            if (value.HasValue)
+            {
+                count++;
+                var doubleValue = Convert.ToDouble(value.Value);
+                var delta = doubleValue - mean;
+                mean += delta / count;
+                var delta2 = doubleValue - mean;
+                m2 += delta * delta2;
+            }
+        }
+
+        if (count < (sample ? 2 : 1))
         {
             return null;
         }
 
-        var mean = values.Average();
-        var sumOfSquaredDifferences = values.Sum(v => Math.Pow(v - mean, 2));
-        var divisor = sample ? values.Count - 1 : values.Count;
-
-        return sumOfSquaredDifferences / divisor;
+        var divisor = sample ? count - 1 : count;
+        return m2 / divisor;
     }
 
     /// <summary>
@@ -212,7 +226,7 @@ public static class DataFrameExtensionsStatistics
     /// <typeparam name="T">Numeric type</typeparam>
     /// <param name="column">Column to calculate statistics for</param>
     /// <returns>Tuple containing (count, mean, stddev, min, 25th percentile, median, 75th percentile, max)</returns>
-    public static (long Count, T? Mean, double? StdDev, T? Min, T? Q25, T? Median, T? Q75, T? Max) Describe<T>(this PrimitiveDataFrameColumn<T> column)
+    public static (long Count, T? Mean, double? StdDev, T? Min, double? Q25, double? Median, double? Q75, T? Max) Describe<T>(this PrimitiveDataFrameColumn<T> column)
         where T : unmanaged, INumber<T>
     {
         var count = column.Count();
@@ -233,8 +247,8 @@ public static class DataFrameExtensionsStatistics
     /// <typeparam name="T">Numeric type</typeparam>
     /// <param name="column">Column to calculate quantile for</param>
     /// <param name="quantile">Quantile to calculate (0.0 to 1.0, e.g., 0.25 for 25th percentile)</param>
-    /// <returns>Quantile value, or null if column is empty</returns>
-    public static T? Quantile<T>(this PrimitiveDataFrameColumn<T> column, double quantile)
+    /// <returns>Quantile value as double, or null if column is empty</returns>
+    public static double? Quantile<T>(this PrimitiveDataFrameColumn<T> column, double quantile)
         where T : unmanaged, INumber<T>
     {
         if (column == null || column.Length == 0 || quantile < 0 || quantile > 1)
@@ -242,7 +256,7 @@ public static class DataFrameExtensionsStatistics
             return null;
         }
 
-        var values = column.Where(v => v.HasValue).Select(v => v!.Value).OrderBy(v => v).ToList();
+        var values = column.Where(v => v.HasValue).Select(v => Convert.ToDouble(v!.Value)).OrderBy(v => v).ToList();
 
         if (values.Count == 0)
         {
@@ -258,7 +272,7 @@ public static class DataFrameExtensionsStatistics
             return values[lowerIndex];
         }
 
-        var weight = T.CreateChecked(index - lowerIndex);
+        var weight = index - lowerIndex;
         return values[lowerIndex] + weight * (values[upperIndex] - values[lowerIndex]);
     }
 }

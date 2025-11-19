@@ -309,6 +309,31 @@ var roundedInt = decimals.Round();  // [1.0, 6.0, 10.0]
 - Microsoft.Data.Analysis 0.21.1 or later
 - MathNet.Numerics 5.0.0 or later
 
+## Null Handling
+
+Different operations handle null values in different ways:
+
+### Arithmetic Operations (Plus, Minus, Times, Divide)
+- Null values are treated as `default(T)` (typically 0 for numeric types)
+- Example: `1 + null = 1 + 0 = 1`
+
+### Statistical Operations (Mean, Median, StdDev, Variance, etc.)
+- Null values are **skipped** and excluded from calculations
+- Example: `Mean([1, null, 3]) = (1 + 3) / 2 = 2.0`
+
+### Shift Operations
+- Null values are **preserved** in their new positions
+- Fill values can be specified for positions vacated by the shift
+
+### Rolling Window Operations
+- Null values are **skipped** within each window
+- The operation is applied only to non-null values
+
+### Filtering Operations
+- `DropNulls()` - Removes rows containing null values
+- `DropNAs()` - Removes rows containing NaN values (for float/double)
+- `DropNullsOrNAs()` - Removes rows containing either nulls or NaNs
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

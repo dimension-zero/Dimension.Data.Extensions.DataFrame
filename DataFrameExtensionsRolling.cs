@@ -24,6 +24,10 @@ public static class DataFrameExtensionsRolling
         where T : unmanaged, INumber<T>
     {
         var result = new PrimitiveDataFrameColumn<T>(column.Name + "_Rolling", column.Length);
+
+        // Pre-allocate a reusable buffer to avoid repeated allocations
+        var windowBuffer = new T?[windowSize];
+
         for (var i = 0; i < column.Length; i++)
         {
             if (i < windowSize - 1)
@@ -32,19 +36,20 @@ public static class DataFrameExtensionsRolling
                 continue;
             }
 
-            var window = new List<T?>();
+            // Reuse the buffer instead of creating new List
+            var windowCount = 0;
             for (var j = i - windowSize + 1; j <= i; j++)
             {
-                if (!column[j].HasValue)
+                if (column[j].HasValue)
                 {
-                    continue;
+                    windowBuffer[windowCount++] = column[j];
                 }
-
-                window.Add(column[j]);
             }
 
-            if (window.Count > 0)
+            if (windowCount > 0)
             {
+                // Create a span/array view of only the valid values
+                var window = new ArraySegment<T?>(windowBuffer, 0, windowCount);
                 var opResult = operation(window);
                 result[i] = opResult;
             }
