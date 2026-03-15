@@ -9,3 +9,11 @@ Path: C:\Users\mathew.burkitt\source\repos\HVL\DataFrame.Extensions\DataFrame.Ex
 - chore: add gitignore and tooling state
   Author: dimension-zero
 
+
+---
+
+## Commit: 2026-03-15 21:46
+
+- chore: add project recap
+  Author: dimension-zero
+
