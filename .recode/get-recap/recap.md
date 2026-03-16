@@ -25,3 +25,11 @@ Path: C:\Users\mathew.burkitt\source\repos\HVL\DataFrame.Extensions\DataFrame.Ex
 - feat: add DataFrame.Extensions with tests
   Author: dimension-zero
 
+
+---
+
+## Commit: 2026-03-16 21:02
+
+- chore: update project recap with latest commit
+  Author: dimension-zero
+
