@@ -1,0 +1,60 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet-version: [ '8.0.x' ]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    - name: Restore dependencies
+      run: dotnet restore Dimension.DataFrame.Extensions.sln -p:Platform=x64
+
+    - name: Build
+      run: dotnet build Dimension.DataFrame.Extensions.sln --configuration Release --no-restore -p:Platform=x64
+
+    - name: Test
+      run: dotnet test Dimension.DataFrame.Extensions.sln --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage -p:Platform=x64
+
+    - name: Code Coverage Report
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage/**/coverage.cobertura.xml
+        fail_ci_if_error: false
+        verbose: true
+
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore Dimension.DataFrame.Extensions.sln -p:Platform=x64
+
+    - name: Build
+      run: dotnet build Dimension.DataFrame.Extensions.sln --configuration Release --no-restore -p:Platform=x64
+
+    - name: Run dotnet format check
+      run: dotnet format --verify-no-changes --verbosity diagnostic || true

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # csharp
 bin/
 obj/
@@ -17,3 +18,13 @@ Thumbs.db
 *.swo
 *~
 
+=======
+bin/
+obj/
+.vs/
+*Technical*
+*Backup*
+*.user
+TestResults/
+coverage/
+>>>>>>> 8c6160fa77adf5c233ef7ac5350a310532bd0c0d
