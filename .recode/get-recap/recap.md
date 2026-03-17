@@ -33,3 +33,19 @@ Path: C:\Users\mathew.burkitt\source\repos\HVL\DataFrame.Extensions\DataFrame.Ex
 - chore: update project recap with latest commit
   Author: dimension-zero
 
+
+---
+
+## Commit: 2026-03-16 21:07
+
+- chore: update project recap
+  Author: dimension-zero
+
+
+---
+
+## Commit: 2026-03-17 21:25
+
+- chore: update project recap
+  Author: dimension-zero
+
